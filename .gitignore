@@ -9,6 +9,7 @@ dist/
 .env.local
 .env.*.local
 default-env.json
+default-env copy.json
 
 # IDE
 .idea/

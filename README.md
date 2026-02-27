@@ -110,9 +110,13 @@ cf service-key sap-btp-usage-xsuaa my-key
 
 ---
 
-## 2. Configure the BTP Destination (SAP BTP Usage API)
+## 2. Create the Destination Service instance
 
-Create a Destination in BTP cockpit pointing to the SAP BTP Usage API:
+```bash
+cf create-service destination lite sap-btp-usage-destination
+```
+
+Then configure a Destination in the **BTP Cockpit** pointing to the SAP BTP Usage API:
 
 | Field | Value |
 |---|---|
@@ -124,7 +128,7 @@ Create a Destination in BTP cockpit pointing to the SAP BTP Usage API:
 | Client Secret | _(from the UAS service key)_ |
 | Token Service URL | `https://<tenant>.authentication.eu10.hana.ondemand.com/oauth/token` |
 
-> The app resolves this destination at runtime. The name must match the env variable `UAS_DESTINATION_NAME` (default: `SAP_BTP_USAGE_API`).
+> The app resolves this destination at runtime via the Destination Service. No credentials are stored in the app.
 
 ---
 
@@ -135,7 +139,7 @@ npm run build
 cf push
 ```
 
-The `manifest.yaml` binds the app to the `sap-btp-usage-xsuaa` service automatically.
+The `manifest.yaml` binds the app to both `sap-btp-usage-xsuaa` and `sap-btp-usage-destination` automatically.
 
 Verify the deployment:
 
@@ -174,7 +178,16 @@ Create a second Destination in BTP cockpit pointing to **this MCP server**:
 
 ## Local development
 
-Copy the template and fill in your credentials:
+Create a `default-env.json` with credentials from your CF service keys (never commit this file):
+
+```bash
+# Get the values from your CF service keys
+cf create-service-key sap-btp-usage-xsuaa local-key
+cf service-key sap-btp-usage-xsuaa local-key
+
+cf create-service-key sap-btp-usage-destination local-key
+cf service-key sap-btp-usage-destination local-key
+```
 
 ```json
 // default-env.json  (never commit this file)
@@ -192,18 +205,22 @@ Copy the template and fill in your credentials:
         "identityzone": "<tenant>",
         "verificationkey": "-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----"
       }
+    }],
+    "destination": [{
+      "label": "destination",
+      "name": "sap-btp-usage-destination",
+      "credentials": {
+        "clientid": "<clientid from destination service key>",
+        "clientsecret": "<clientsecret from destination service key>",
+        "uri": "https://destination-configuration.cfapps.<region>.hana.ondemand.com",
+        "url": "https://<tenant>.authentication.<region>.hana.ondemand.com"
+      }
     }]
-  },
-  "destinations": [{
-    "name": "SAP_BTP_USAGE_API",
-    "url": "https://uas-reporting.cfapps.eu10.hana.ondemand.com",
-    "authentication": "OAuth2ClientCredentials",
-    "clientid": "<clientid>",
-    "clientsecret": "<clientsecret>",
-    "tokenServiceURL": "https://<tenant>.authentication.eu10.hana.ondemand.com/oauth/token"
-  }]
+  }
 }
 ```
+
+> The app will use the Destination Service to fetch the `SAP_BTP_USAGE_API` destination configured in the BTP Cockpit.
 
 Disable authentication locally (optional):
 

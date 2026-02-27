@@ -11,7 +11,8 @@ applications:
     
     # Services
     services:
-      - sap-btp-usage-xsuaa  # XSUAA for authentication
+      - sap-btp-usage-xsuaa        # XSUAA for authentication
+      - sap-btp-usage-destination  # Destination Service for SAP BTP Usage API credentials
     
     env:
       # Node.js settings

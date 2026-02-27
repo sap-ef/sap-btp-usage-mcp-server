@@ -154,25 +154,32 @@ Expected response: `{"status":"healthy","server":"sap-btp-usage-mcp-server"}`
 
 ## 4. Connect to SAP Joule Studio
 
-Create a second Destination in BTP cockpit pointing to **this MCP server**:
+In the **subaccount where Joule Studio is enabled**, create a Destination pointing to this MCP server. You can import the following JSON directly in the BTP Cockpit:
 
-| Field | Value |
-|---|---|
-| Name | `MCP_UAS` _(or any name)_ |
-| Type | `HTTP` |
-| URL | `https://<your-app-url>` |
-| Authentication | `OAuth2ClientCredentials` |
-| Client ID | `sb-sap-btp-usage-mcp-server!t<N>` _(from XSUAA service key)_ |
-| Client Secret | _(from XSUAA service key)_ |
-| Token Service URL | `https://<tenant>.authentication.<region>.hana.ondemand.com/oauth/token` |
+```json
+{
+  "destination": {
+    "Name": "MCP_UAS",
+    "Type": "HTTP",
+    "URL": "https://<your-app-url>",
+    "ProxyType": "Internet",
+    "Authentication": "OAuth2ClientCredentials",
+    "clientId": "sb-sap-btp-usage-mcp-server!t<N>",
+    "clientSecret": "<clientsecret from XSUAA service key>",
+    "tokenServiceURL": "https://<tenant>.authentication.<region>.hana.ondemand.com/oauth/token",
+    "tokenServiceURLType": "Dedicated",
+    "sap-joule-studio-mcp-server": "true"
+  }
+}
+```
 
-**Additional property (required for Joule Studio to discover this as an MCP server):**
+Get `clientId`, `clientSecret` and `tokenServiceURL` from the XSUAA service key:
 
-| Key | Value |
-|---|---|
-| `sap-joule-studio-mcp-server` | `true` |
+```bash
+cf service-key sap-btp-usage-xsuaa my-key
+```
 
-> Joule Studio reads destinations tagged with this property and registers them as MCP toolkits.
+> The `sap-joule-studio-mcp-server: true` additional property is required for Joule Studio to discover and register this server as an MCP toolkit.
 
 ---
 

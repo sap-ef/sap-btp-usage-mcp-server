@@ -1,0 +1,14 @@
+node_modules/
+src/
+*.ts
+tsconfig.json
+.git/
+.gitignore
+*.md
+!README.md
+
+# Sensitive files - DO NOT DEPLOY
+default-env.json
+default-env.json.template
+.env
+.env.*

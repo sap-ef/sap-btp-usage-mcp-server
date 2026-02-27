@@ -1,0 +1,25 @@
+---
+applications:
+  - name: sap-btp-usage-mcp-server
+    memory: 256M
+    disk_quota: 512M
+    instances: 1
+    buildpacks:
+      - nodejs_buildpack
+    command: node dist/index.js
+    random-route: true
+    
+    # Services
+    services:
+      - sap-btp-usage-xsuaa  # XSUAA for authentication
+    
+    env:
+      # Node.js settings
+      NODE_ENV: production
+      
+    # Health check configuration
+    health-check-type: http
+    health-check-http-endpoint: /health
+    
+    # Timeout settings
+    timeout: 180

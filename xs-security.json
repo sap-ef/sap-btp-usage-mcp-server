@@ -1,0 +1,63 @@
+{
+  "xsappname": "sap-btp-usage-mcp-server",
+  "tenant-mode": "dedicated",
+  "description": "Security configuration for SAP BTP Usage MCP Server",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.access",
+      "description": "Access to MCP Server endpoints"
+    },
+    {
+      "name": "$XSAPPNAME.read",
+      "description": "Read access to usage data"
+    },
+    {
+      "name": "$XSAPPNAME.admin",
+      "description": "Administrative access to MCP Server"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "MCPUser",
+      "description": "Standard MCP Server User",
+      "scope-references": [
+        "$XSAPPNAME.access",
+        "$XSAPPNAME.read"
+      ]
+    },
+    {
+      "name": "MCPAdmin",
+      "description": "MCP Server Administrator",
+      "scope-references": [
+        "$XSAPPNAME.access",
+        "$XSAPPNAME.read",
+        "$XSAPPNAME.admin"
+      ]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "MCPServerUsers",
+      "description": "Users with access to MCP Server",
+      "role-template-references": [
+        "$XSAPPNAME.MCPUser"
+      ]
+    },
+    {
+      "name": "MCPServerAdministrators",
+      "description": "Administrators of MCP Server",
+      "role-template-references": [
+        "$XSAPPNAME.MCPAdmin"
+      ]
+    }
+  ],
+  "oauth2-configuration": {
+    "token-validity": 3600,
+    "refresh-token-validity": 86400,
+    "grant-types": [
+      "client_credentials",
+      "authorization_code",
+      "refresh_token"
+    ]
+  }
+}

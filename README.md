@@ -151,7 +151,7 @@ The MCP server needs to connect to SAP's Usage API. Set this up in **BTP Cockpit
 
 4. Click **Save** → **Check Connection**
 
-> 📖 Need UAS credentials? See [SAP BTP Resource Consumption API](https://api.sap.com/package/SAPBTPResourceConsumption)
+> 📖 Need UAS credentials? See [SAP BTP Resource Consumption API](https://api.sap.com/api/APIUasReportingService/overview)
 
 ---
 
@@ -455,6 +455,6 @@ sap-btp-usage-mcp-server/
 
 ## Learn More
 
-- [SAP BTP Usage API](https://api.sap.com/package/SAPBTPResourceConsumption) — API documentation
+- [SAP BTP Usage API](https://api.sap.com/api/APIUasReportingService/overview) — API documentation
 - [Model Context Protocol](https://modelcontextprotocol.io/) — MCP specification
 - [SAP Joule](https://help.sap.com/docs/joule) — AI assistant docs

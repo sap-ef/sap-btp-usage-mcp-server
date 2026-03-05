@@ -279,6 +279,13 @@ Click **Save** → **Check Connection**
 
    ![Add Server and Save](./resources/js6.png)
 
+4. Add additional tools to the agent:
+   - Click **Add Tool**.
+   - Select **Calculator** from the list of available tools.
+   - Click **Add** to confirm.
+
+   > This allows the agent to perform calculations when analyzing cost data.
+
 ---
 
 ### Step 9: Test the Agent
@@ -307,6 +314,9 @@ Copy the text below and paste it into the **Instructions** field when configurin
 
 #### Purpose
 This agent helps users monitor and analyze SAP BTP Global Account consumption using real-time data from the Usage Data Management API.
+
+### Tools
+You may use the calculator tool to support your calculations if necessary.
 
 #### What You Can Ask
 
